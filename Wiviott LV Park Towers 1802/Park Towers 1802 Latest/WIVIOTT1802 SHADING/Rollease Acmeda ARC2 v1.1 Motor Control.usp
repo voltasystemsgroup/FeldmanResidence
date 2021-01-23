@@ -1,0 +1,397 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: Control Concepts, Inc.
+System Name:
+System Number:
+Programmer: DGG
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+*******************************************************************************************/
+
+#SYMBOL_NAME "Rollease Acmeda ARC2 v1.1 Motor Control"
+#CATEGORY "0"
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+#PRINT_TO_TRACE
+ 
+// #ENABLE_DYNAMIC
+// #HINT ""
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+
+// MAX STUFF
+#DEFINE_CONSTANT MAX_STRING 255
+
+// VALUE RESET
+#DEFINE_CONSTANT NULL_STRING ""
+#DEFINE_CONSTANT NULL_VALUE	 0
+
+// OTHER STUFF
+#DEFINE_CONSTANT TRUE  1
+#DEFINE_CONSTANT FALSE 0
+
+#HELP_BEGIN
+To be used with Rollease Acmeda ARC2 v1.1 Motor Control.umc module only. Not to be used as a stand-alone module. 
+#HELP_END
+
+/*******************************************************************************************
+  Include Libraries
+*******************************************************************************************/
+
+#USER_SIMPLSHARP_LIBRARY "RolleaseAcmedaARCv2"
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+*******************************************************************************************/
+
+// INPUTS
+DIGITAL_INPUT  Move_Up_Open, Move_Down_Close, Jog_Up_Open, Jog_Down_Close, Set_Position, Set_Rotation, Force_Initialized;
+ANALOG_INPUT   Set_Position_Value, Set_Rotation_Value;
+
+// OUTPUTS
+DIGITAL_OUTPUT Is_Communicating, Is_Initialized;
+ANALOG_OUTPUT  Last_Set_Position, Last_Set_Rotation, Current_Position, Current_Rotation;
+STRING_OUTPUT  Version, Type, Voltage, Motor_Name, Motor_Room;
+
+/*******************************************************************************************
+  Parameters
+*******************************************************************************************/
+
+INTEGER_PARAMETER Command_Processor_ID;
+STRING_PARAMETER  Motor_Address[MAX_STRING];
+
+/*******************************************************************************************
+  Parameter Properties
+*******************************************************************************************/
+
+#BEGIN_PARAMETER_PROPERTIES Command_Processor_ID
+   propValidUnits = unitDecimal;
+   propDefaultUnit = unitDecimal;
+   propBounds = 1d , 32d;
+   propDefaultValue = 1d;
+#END_PARAMETER_PROPERTIES
+
+#BEGIN_PARAMETER_PROPERTIES Motor_Address
+   propValidUnits = unitString;
+   propDefaultUnit = unitString;
+   propDefaultValue = "";
+#END_PARAMETER_PROPERTIES
+
+/*******************************************************************************************
+  Global Variables
+*******************************************************************************************/
+
+MotorComponent component;
+
+// CURRENT STATE TRACKING
+// THIS PREVENTS UNNECESSARY TRAFFIC IN DEBUGGER BY ONLY SHOWING SIGNALS IF THEY CHANGE
+// MORE CODE IS INVOLVED WITH THIS METHOD BUT IT MAKES FOR CLEANER DEBUGGING
+INTEGER lastSetPosition, lastSetRotation, currentPosition, currentRotation;
+STRING  motorVersion[MAX_STRING], motorType[MAX_STRING], motorVoltage[MAX_STRING], motorName[MAX_STRING], motorRoom[MAX_STRING];
+
+/*******************************************************************************************
+  Functions
+*******************************************************************************************/
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//	GENERAL
+////////////////////////////////////////////////////////////////////////////////////////////
+
+FUNCTION ResetAllInfo()
+{
+  // RESET DIGITALS
+  Is_Communicating = FALSE;
+  Is_Initialized = FALSE;
+  
+  // RESET ANALOGS
+  lastSetPosition = NULL_VALUE;
+  lastSetRotation = NULL_VALUE;
+  currentPosition = NULL_VALUE;
+  currentRotation = NULL_VALUE;
+
+  Last_Set_Position = NULL_VALUE;
+  Last_Set_Rotation = NULL_VALUE;
+  Current_Position = NULL_VALUE;
+  Current_Rotation = NULL_VALUE;
+
+  // RESET SERIALS
+  motorVersion = NULL_STRING;
+  motorType = NULL_STRING;
+  motorVoltage = NULL_STRING;
+  motorName = NULL_STRING;
+  motorRoom = NULL_STRING;
+
+  Version = NULL_STRING;
+  Type = NULL_STRING;
+  Voltage = NULL_STRING;
+  Motor_Name = NULL_STRING;
+  Motor_Room = NULL_STRING;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//	SIMPL# EVENTS
+////////////////////////////////////////////////////////////////////////////////////////////
+
+EVENTHANDLER OnCommunicatingChange(MotorComponent sender, IntegerEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+    Is_Communicating = args.payload;
+}
+
+EVENTHANDLER OnInitializedChange(MotorComponent sender, IntegerEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+    Is_Initialized = args.payload;
+}
+
+EVENTHANDLER OnLastSetPositionChange(MotorComponent sender, IntegerEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+	IF (lastSetPosition != args.payload)
+	{
+      lastSetPosition = args.payload;
+      Last_Set_Position = args.payload;
+	}
+  }
+}
+
+EVENTHANDLER OnLastSetRotationChange(MotorComponent sender, IntegerEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+	IF (lastSetRotation != args.payload)
+	{
+      lastSetRotation = args.payload;
+      Last_Set_Rotation = args.payload;
+	}
+  }
+}
+
+EVENTHANDLER OnCurrentPositionChange(MotorComponent sender, IntegerEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+	IF (currentPosition != args.payload)
+	{
+      currentPosition = args.payload;
+      Current_Position = args.payload;
+	}
+  }
+}
+
+EVENTHANDLER OnCurrentRotationChange(MotorComponent sender, IntegerEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+	IF (currentRotation != args.payload)
+	{
+      currentRotation = args.payload;
+      Current_Rotation = args.payload;
+	}
+  }
+}
+
+EVENTHANDLER OnVersionChange(MotorComponent sender, StringEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+  	IF (motorVersion != args.payload)
+	{
+      motorVersion = args.payload;
+      MAKESTRING(Version, "%s", args.payload);
+	}
+  }
+}
+
+EVENTHANDLER OnTypeChange(MotorComponent sender, StringEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+  	IF (motorType != args.payload)
+	{
+      motorType = args.payload;
+      MAKESTRING(Type, "%s", args.payload);
+	}
+  }
+}
+
+EVENTHANDLER OnVoltageChange(MotorComponent sender, StringEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+  	IF (motorVoltage != args.payload)
+	{
+      motorVoltage = args.payload;
+      MAKESTRING(Voltage, "%s", args.payload);
+	}
+  }
+}
+
+EVENTHANDLER OnNameChange(MotorComponent sender, StringEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+  	IF (motorName != args.payload)
+	{
+      motorName = args.payload;
+      MAKESTRING(Motor_Name, "%s", args.payload);
+	}
+  }
+}
+
+EVENTHANDLER OnRoomChange(MotorComponent sender, StringEventArgs args)
+{
+  STRING motor[MAX_STRING];
+  motor = sender.GetMotorAddress();
+
+  IF (sender.GetProcessorID() = Command_Processor_ID && motor = Motor_Address)
+  {
+  	IF (motorRoom != args.payload)
+	{
+      motorRoom = args.payload;
+      MAKESTRING(Motor_Room, "%s", args.payload);
+	}
+  }
+}
+
+/*******************************************************************************************
+  Event Handlers
+*******************************************************************************************/
+
+THREADSAFE PUSH Move_Up_Open
+{
+  component.MoveUp();
+}
+ 
+THREADSAFE RELEASE Move_Up_Open
+{
+  component.Stop();
+}
+
+THREADSAFE PUSH Move_Down_Close
+{
+  component.MoveDown();
+}
+
+THREADSAFE RELEASE Move_Down_Close
+{
+  component.Stop();
+}
+
+THREADSAFE PUSH Jog_Up_Open
+{
+  component.JogUp();
+}
+
+THREADSAFE RELEASE Jog_Up_Open
+{
+  component.Stop();
+}
+
+THREADSAFE PUSH Jog_Down_Close
+{
+  component.JogDown();
+}
+
+THREADSAFE RELEASE Jog_Down_Close
+{
+  component.Stop();
+}
+
+THREADSAFE PUSH Set_Position
+{
+  component.SetPosition();
+}
+
+THREADSAFE PUSH Set_Rotation
+{
+  component.SetRotation();
+}
+
+THREADSAFE CHANGE Set_Position_Value
+{
+  component.SetPositionValue(Set_Position_Value);
+}
+
+THREADSAFE CHANGE Set_Rotation_Value
+{
+  component.SetRotationValue(Set_Rotation_Value);
+}
+
+THREADSAFE PUSH Force_Initialized
+{
+  component.SetForceInitialized(TRUE);
+}
+
+THREADSAFE RELEASE Force_Initialized
+{
+  component.SetForceInitialized(FALSE);
+}
+
+/*******************************************************************************************
+  Main()
+*******************************************************************************************/
+
+FUNCTION Main()
+{
+  WAITFORINITIALIZATIONCOMPLETE();
+  ResetAllInfo();
+
+  REGISTEREVENT(component, OnCommunicatingChange, OnCommunicatingChange);
+  REGISTEREVENT(component, OnInitializedChange, OnInitializedChange);
+  REGISTEREVENT(component, OnLastSetPositionChange, OnLastSetPositionChange);  
+  REGISTEREVENT(component, OnLastSetRotationChange, OnLastSetRotationChange);
+  REGISTEREVENT(component, OnCurrentPositionChange, OnCurrentPositionChange);  
+  REGISTEREVENT(component, OnCurrentRotationChange, OnCurrentRotationChange);
+  REGISTEREVENT(component, OnVersionChange, OnVersionChange);
+  REGISTEREVENT(component, OnTypeChange, OnTypeChange);
+  REGISTEREVENT(component, OnVoltageChange, OnVoltageChange);                                       
+  REGISTEREVENT(component, OnNameChange, OnNameChange);
+  REGISTEREVENT(component, OnRoomChange, OnRoomChange);
+                                           
+  component.Configure(Command_Processor_ID, Motor_Address);
+}

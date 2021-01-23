@@ -1,0 +1,264 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name: Control Concepts, Inc.
+System Name:
+System Number:
+Programmer: DGG
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+*******************************************************************************************/
+
+#SYMBOL_NAME "Rollease Acmeda ARC2 v1.1 Command Processor"
+#CATEGORY "0"
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+
+// #ENABLE_DYNAMIC
+// #HINT ""
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+
+// MAX STUFF
+#DEFINE_CONSTANT MAX_STRING 255
+
+// VALUE RESET
+#DEFINE_CONSTANT NULL_STRING ""
+#DEFINE_CONSTANT NULL_VALUE	 0
+
+// OTHER STUFF
+#DEFINE_CONSTANT TRUE  1
+#DEFINE_CONSTANT FALSE 0
+
+#HELP_BEGIN
+To be used with Rollease Acmeda ARC2 v1.1 Command Processor IP.umc module only. Not to be used as a stand-alone module. 
+#HELP_END
+
+/*******************************************************************************************
+  Include Libraries
+*******************************************************************************************/
+
+#USER_SIMPLSHARP_LIBRARY "RolleaseAcmedaARCv2"
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+*******************************************************************************************/
+
+// INPUTS
+DIGITAL_INPUT  Connect, Disconnect, Reinitialize, Enable_Debug, Enable_Setup, Enable_Passback;
+STRING_INPUT   Passthrough[MAX_STRING];
+
+// OUTPUTS
+DIGITAL_OUTPUT Is_Communicating, Is_Initialized;
+STRING_OUTPUT  Motor_Address, Passback, Hub_Name, Hub_MAC;
+
+/*******************************************************************************************
+  Parameters
+*******************************************************************************************/
+
+INTEGER_PARAMETER Command_Processor_ID;
+STRING_PARAMETER  Pulse_Hub_IP_Address[MAX_STRING];
+
+/*******************************************************************************************
+  Parameter Properties
+*******************************************************************************************/
+
+#BEGIN_PARAMETER_PROPERTIES Command_Processor_ID
+   propValidUnits = unitDecimal;
+   propDefaultUnit = unitDecimal;
+   propBounds = 1d , 32d;
+   propDefaultValue = 1d;
+#END_PARAMETER_PROPERTIES
+
+#BEGIN_PARAMETER_PROPERTIES Pulse_Hub_IP_Address
+   propValidUnits = unitString;
+   propDefaultUnit = unitString;
+   propDefaultValue = "0.0.0.0";
+#END_PARAMETER_PROPERTIES
+
+/*******************************************************************************************
+  Global Variables
+*******************************************************************************************/
+
+Rollease device;
+
+// CURRENT STATE TRACKING
+// THIS PREVENTS UNNECESSARY TRAFFIC IN DEBUGGER BY ONLY SHOWING SIGNALS IF THEY CHANGE
+// MORE CODE IS INVOLVED WITH THIS METHOD BUT IT MAKES FOR CLEANER DEBUGGING
+STRING  motorAddress[MAX_STRING], hubName[MAX_STRING], hubMAC[MAX_STRING];
+
+/*******************************************************************************************
+  Functions
+*******************************************************************************************/
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//	GENERAL
+////////////////////////////////////////////////////////////////////////////////////////////
+
+FUNCTION ResetAllInfo()
+{
+  // RESET DIGITALS
+  Is_Communicating = FALSE;
+  Is_Initialized = FALSE;
+  
+  // RESET SERIALS
+  motorAddress = NULL_STRING;
+  hubName = NULL_STRING;
+  hubMAC = NULL_STRING;
+
+  Motor_Address = NULL_STRING;
+  Passback = NULL_STRING;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////
+//	SIMPL# EVENTS
+////////////////////////////////////////////////////////////////////////////////////////////
+
+EVENTHANDLER OnDebugChange(Rollease sender, StringEventArgs args)
+{
+  IF (sender.GetProcessorID() = Command_Processor_ID)
+	TRACE("%s", args.payload);
+}
+
+EVENTHANDLER OnCommunicatingChange(Rollease sender, IntegerEventArgs args)
+{
+  IF (sender.GetProcessorID() = Command_Processor_ID)
+    Is_Communicating = args.payload;
+}
+
+EVENTHANDLER OnInitializedChange(Rollease sender, IntegerEventArgs args)
+{
+  IF (sender.GetProcessorID() = Command_Processor_ID)
+    Is_Initialized = args.payload;
+}
+
+EVENTHANDLER OnMotorAddressChange(Rollease sender, StringEventArgs args)
+{
+  IF (sender.GetProcessorID() = Command_Processor_ID)
+  {
+  	IF (motorAddress != args.payload)
+	{
+      motorAddress = args.payload;
+      MAKESTRING(Motor_Address, "%s", args.payload);
+	}
+  }	
+}
+
+EVENTHANDLER OnPassbackChange(Rollease sender, StringEventArgs args)
+{
+  IF (sender.GetProcessorID() = Command_Processor_ID)
+	MAKESTRING(Passback, "%s", args.payload);
+}
+
+EVENTHANDLER OnHubNameChange(Rollease sender, StringEventArgs args)
+{
+  IF (sender.GetProcessorID() = Command_Processor_ID)
+  {
+  	IF (hubName != args.payload)
+	{
+      hubName = args.payload;
+      MAKESTRING(Hub_Name, "%s", args.payload);
+	}
+  }	
+}
+
+EVENTHANDLER OnHubMACChange(Rollease sender, StringEventArgs args)
+{
+  IF (sender.GetProcessorID() = Command_Processor_ID)
+  {
+  	IF (hubMAC != args.payload)
+	{
+      hubMAC = args.payload;
+      MAKESTRING(Hub_MAC, "%s", args.payload);
+	}
+  }	
+}
+
+/*******************************************************************************************
+  Event Handlers
+*******************************************************************************************/
+
+THREADSAFE PUSH Connect
+{
+  device.Connect();
+}
+
+THREADSAFE PUSH Disconnect
+{
+  device.Disconnect();
+}
+
+THREADSAFE PUSH Reinitialize
+{
+  device.Reinitialize();
+}
+
+THREADSAFE PUSH Enable_Debug
+{
+  device.SetDebug(TRUE);
+}
+
+THREADSAFE RELEASE Enable_Debug
+{
+  device.SetDebug(FALSE);
+}
+
+THREADSAFE PUSH Enable_Setup
+{
+  device.SetSetup(TRUE);
+}
+
+THREADSAFE RELEASE Enable_Setup
+{
+  device.SetSetup(FALSE);
+}
+
+THREADSAFE PUSH Enable_Passback
+{
+  device.SetPassback(TRUE);
+}
+
+THREADSAFE RELEASE Enable_Passback
+{
+  device.SetPassback(FALSE);
+}
+
+THREADSAFE CHANGE Passthrough
+{
+  device.Passthrough(Passthrough);
+}
+
+/*******************************************************************************************
+  Main()
+*******************************************************************************************/
+
+FUNCTION Main()
+{
+  WAITFORINITIALIZATIONCOMPLETE();
+  ResetAllInfo();
+  
+  REGISTEREVENT(device, OnDebugChange, OnDebugChange);
+  REGISTEREVENT(device, OnCommunicatingChange, OnCommunicatingChange);
+  REGISTEREVENT(device, OnInitializedChange, OnInitializedChange);
+  REGISTEREVENT(device, OnMotorAddressChange, OnMotorAddressChange); 
+  REGISTEREVENT(device, OnPassbackChange, OnPassbackChange);                                         
+  REGISTEREVENT(device, OnHubNameChange, OnHubNameChange);
+  REGISTEREVENT(device, OnHubMACChange, OnHubMACChange);                                
+     
+  DELAY(500);
+  
+  device.Configure(Command_Processor_ID, Pulse_Hub_IP_Address);
+}

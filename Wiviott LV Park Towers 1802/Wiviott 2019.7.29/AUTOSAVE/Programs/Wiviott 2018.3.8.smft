@@ -1,0 +1,57 @@
+<Device Model="DIN-AP3">
+   <Network Type="Cresnet" Id="01">
+      <Device Model="C2N-CBD-P" DeviceId="20" Name="@ SERVICE DOOR"/>
+      <Device Model="C2N-CBD-P" DeviceId="21" Name="@ FOYER ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="22" Name="@ MAIN DOOR"/>
+      <Device Model="C2N-CBD-P" DeviceId="23" Name="@ STUDY HALL ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="24" Name="@ COUCH RIGHT"/>
+      <Device Model="C2N-CBD-P" DeviceId="25" Name="@ COUCH LEFT"/>
+      <Device Model="C2N-CBD-P" DeviceId="26" Name="@ BATH ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="27" Name="@ STUDY PATIO DOOR"/>
+      <Device Model="C2N-CBD-P" DeviceId="28" Name="@ POWDER DOOR"/>
+      <Device Model="C2N-CBD-P" DeviceId="29" Name="@ POWDER ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="2A" Name="@ FAMILY HALL"/>
+      <Device Model="C2N-CBD-P" DeviceId="2B" Name="@ PATIO DOOR"/>
+      <Device Model="C2N-CBD-P" DeviceId="2C" Name="@ KITHCEN ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="3A" Name="@ HALL ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="3B" Name="@ MASTER BED ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="3C" Name="@ PATIO L"/>
+      <Device Model="C2N-CBD-P" DeviceId="3D" Name="@ PATIO R"/>
+      <Device Model="C2N-CBD-P" DeviceId="3E" Name="@ HIS NIGHT STAND"/>
+      <Device Model="C2N-CBD-P" DeviceId="3F" Name="@ HER NIGHT STAND"/>
+      <Device Model="C2N-CBD-P" DeviceId="40" Name="@ ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="41" Name="@ HIS CLOSET"/>
+      <Device Model="C2N-CBD-P" DeviceId="42" Name="@ OFFICE ENTRY L"/>
+      <Device Model="C2N-CBD-P" DeviceId="43" Name="@ OFFICE ENTRY R"/>
+      <Device Model="C2N-CBD-P" DeviceId="44" Name="@ DRAWER"/>
+      <Device Model="C2N-CBD-P" DeviceId="45" Name="@ ENTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="46" Name="@ HER TOILET"/>
+      <Device Model="C2N-CBD-P" DeviceId="4A" Name="@ BUTLERS PANTRY"/>
+      <Device Model="C2N-CBD-P" DeviceId="4B" Name="@ FIREPLACE"/>
+      <Device Model="C2N-CBD-P" DeviceId="4C" Name="@ SOUTH PATIO"/>
+      <Device Model="C2N-CBD-P" DeviceId="4D" Name="@ NORTH PATIO"/>
+      <Device Model="C2N-CBD-P" DeviceId="4E" Name="@ PATIO LEFT"/>
+      <Device Model="C2N-CBD-P" DeviceId="4F" Name="@ PATIO RIGHT"/>
+      <Device Model="DIN-1DIMU4" DeviceId="5A" Name="Enclosure 1 Slot 01"/>
+      <Device Model="DIN-1DIMU4" DeviceId="5B" Name="Enclosure 1 Slot 19"/>
+      <Device Model="DIN-1DIMU4" DeviceId="5C" Name="Enclosure 2 Slot 01"/>
+      <Device Model="DIN-1DIMU4" DeviceId="5D" Name="Enclosure 2 Slot 19"/>
+      <Device Model="CLX-1DIM8" DeviceId="60" Name="Enclosure 4 Slot 02"/>
+      <Device Model="CLX-1DIM8" DeviceId="61" Name="Enclosure 4 Slot 03"/>
+      <Device Model="CLX-1DIM8" DeviceId="62" Name="Enclosure 4 Slot 04"/>
+      <Device Model="CLX-1DIM8" DeviceId="6A" Name="Enclosure 3 Slot 01"/>
+      <Device Model="CLX-1DIM8" DeviceId="6B" Name="Enclosure 3 Slot 02"/>
+      <Device Model="CLX-1DIM8" DeviceId="6C" Name="Enclosure 3 Slot 03"/>
+      <Device Model="CLX-1DIM8" DeviceId="6D" Name="Enclosure 3 Slot 04"/>
+      <Device Model="CLX-1DIM8" DeviceId="70" Name="Enclosure 2 BOTTOM Slot 07"/>
+      <Device Model="CLX-1DIM8" DeviceId="71" Name="Enclosure 1 TOP Slot 01"/>
+      <Device Model="CLX-1DIM8" DeviceId="72" Name="Enclosure 1 TOP Slot 02"/>
+      <Device Model="CLX-1DIM8" DeviceId="73" Name="Enclosure 1 TOP Slot 03"/>
+      <Device Model="CLX-1DIM8" DeviceId="74" Name="Enclosure 1 TOP Slot 04"/>
+      <Device Model="CLX-1DIM8" DeviceId="75" Name="Enclosure 1 TOP Slot 05"/>
+      <Device Model="CLX-1DIM8" DeviceId="76" Name="Enclosure 1 TOP Slot 06"/>
+      <Device Model="CLX-1DIM8" DeviceId="77" Name="Enclosure 1 TOP Slot 07"/>
+      <Device Model="CLX-1DIM8" DeviceId="78" Name="Enclosure 1 TOP Slot 08"/>
+   </Network>
+   <Network Type="Ethernet" Id="02"/>
+</Device>

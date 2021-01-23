@@ -1,0 +1,218 @@
+/*******************************************************************************************
+  SIMPL+ Module Information
+  (Fill in comments below)
+*******************************************************************************************/
+/*
+Dealer Name:
+System Name:
+System Number:
+Programmer:
+Comments:
+*/
+
+/*******************************************************************************************
+  Compiler Directives
+  (Uncomment and declare compiler directives as needed)
+*******************************************************************************************/
+// #ENABLE_DYNAMIC
+// #SYMBOL_NAME ""
+// #HINT ""
+// #DEFINE_CONSTANT
+#CATEGORY "0" 
+// #PRINT_TO_TRACE
+// #DIGITAL_EXPAND 
+// #ANALOG_SERIAL_EXPAND 
+// #OUTPUT_SHIFT 
+// #HELP_PDF_FILE ""
+#DEFAULT_VOLATILE
+#ENABLE_STACK_CHECKING
+#ENABLE_TRACE
+// #ENCODING_ASCII
+// #ENCODING_UTF16
+// #ENCODING_INHERIT_FROM_PARENT
+// #ENCODING_INHERIT_FROM_PROGRAM
+/*
+#HELP_BEGIN
+   (add additional lines of help lines)
+#HELP_END
+*/
+
+/*******************************************************************************************
+  Include Libraries
+  (Uncomment and include additional libraries as needed)
+*******************************************************************************************/
+// #CRESTRON_LIBRARY ""
+// #USER_LIBRARY ""
+
+#USER_SIMPLSHARP_LIBRARY "RolleaseAcmedaARC"
+
+/*******************************************************************************************
+  DIGITAL, ANALOG and SERIAL INPUTS and OUTPUTS
+  (Uncomment and declare inputs and outputs as needed)
+*******************************************************************************************/
+DIGITAL_INPUT _SKIP_, _SKIP_, RaiseBlind, LowerBlind, StopBlind, JogUp, JogDown, DirectSetTravel, DirectSetRotation, Poll;
+ANALOG_INPUT DirectSetTravelPosition, DirectSetRotationPosition; 
+// STRING_INPUT 
+// BUFFER_INPUT 
+
+DIGITAL_OUTPUT _SKIP_, _SKIP_, Is_Initialized;
+ANALOG_OUTPUT Travel, Rotation;
+STRING_OUTPUT Voltage$, Version$, Type$;
+
+/*******************************************************************************************
+  SOCKETS
+  (Uncomment and define socket definitions as needed)
+*******************************************************************************************/
+// TCP_CLIENT
+// TCP_SERVER
+// UDP_SOCKET
+
+/*******************************************************************************************
+  Parameters
+  (Uncomment and declare parameters as needed)
+*******************************************************************************************/
+// INTEGER_PARAMETER
+// SIGNED_INTEGER_PARAMETER
+// LONG_INTEGER_PARAMETER
+// SIGNED_LONG_INTEGER_PARAMETER
+STRING_PARAMETER Motor_Address[3];
+INTEGER_PARAMETER CommandProcessorID;
+
+/*******************************************************************************************
+  Parameter Properties
+  (Uncomment and declare parameter properties as needed)
+*******************************************************************************************/
+/*
+#BEGIN_PARAMETER_PROPERTIES parameter_variable, parameter_variable, ...
+   // propValidUnits = // unitString or unitDecimal|unitHex|unitPercent|unitCharacter|unitTime|unitTicks;
+   // propDefaultUnit = // unitString, unitDecimal, unitHex, unitPercent, unitCharacter, unitTime or unitTicks;
+   // propBounds = lower_bound , upper_bound;
+   // propDefaultValue = ;  // or, propDefaultValue = "";
+   // propList = // { "value" , "label" } , { "value" , "label" } , ... ;
+   // propShortDescription = "status_bar_hint_text";
+   // #BEGIN_PROP_FULL_DESCRIPTION  line_1...  line_2...  line_n  #END_PROP_FULL_DESCRIPTION
+   // #BEGIN_PROP_NOTES line_1...  line_2...  line_n  #END_PROP_NOTES
+#END_PARAMETER_PROPERTIES
+*/
+
+/*******************************************************************************************
+  Structure Definitions
+  (Uncomment and define structure definitions as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: struct.myString = "";
+*******************************************************************************************/
+/*
+STRUCTURE MyStruct1
+{
+};
+
+MyStruct1 struct;
+*/
+
+/*******************************************************************************************
+  Global Variables
+  (Uncomment and declare global variables as needed)
+  Note:  Be sure to initialize all declared STRING variables as needed
+         For example, in Function Main: myString = "";
+*******************************************************************************************/
+// INTEGER
+// LONG_INTEGER
+// SIGNED_INTEGER
+// SIGNED_LONG_INTEGER
+// STRING
+
+MotorComponent component;
+
+CALLBACK FUNCTION IsInit(Integer state)
+{
+	Is_Initialized = state;
+}
+
+CALLBACK FUNCTION OnVersion(STRING version)
+{
+	Version$ = version;
+}
+
+CALLBACK FUNCTION OnType(STRING type)
+{
+ 	Type$ = type;
+}
+
+CALLBACK FUNCTION OnTravel(INTEGER t)
+{
+    Travel = t;
+}
+
+CALLBACK FUNCTION OnRotation(INTEGER r)
+{
+	Rotation = r;
+}
+
+CALLBACK FUNCTION OnVoltage(STRING v)
+{
+	Voltage$ = v;
+}
+
+/*******************************************************************************************
+  Event Handlers
+  (Uncomment and declare additional event handlers as needed)
+*******************************************************************************************/
+
+THREADSAFE PUSH RaiseBlind
+{
+	component.Raise();
+}
+
+THREADSAFE PUSH LowerBlind
+{
+	component.Lower();
+}
+
+THREADSAFE PUSH StopBlind
+{
+    component.Stop();
+}
+
+THREADSAFE PUSH JogUp
+{
+	component.JogUp();
+}
+
+THREADSAFE PUSH JogDown
+{
+	component.JogDown();
+}
+
+THREADSAFE PUSH DirectSetTravel
+{
+	component.DirectSetTravel(DirectSetTravelPosition);
+}
+
+THREADSAFE PUSH DirectSetRotation
+{
+	component.DirectSetRotation(DirectSetRotationPosition);
+}
+
+THREADSAFE PUSH Poll
+{
+	component.Poll();
+}
+
+Function Main()
+{
+    WaitForInitializationComplete();
+	RegisterDelegate(component, OnInitializeChange, IsInit); 
+	RegisterDelegate(component, OnVersionChange, OnVersion);
+	RegisterDelegate(component, OnTypeChange, OnType);
+	RegisterDelegate(component, OnTravelChange, OnTravel);
+	RegisterDelegate(component, OnRotationChange, OnRotation);
+	RegisterDelegate(component, OnVoltageChange, OnVoltage);
+	try
+	{                                  
+	    component.Configure(CommandProcessorID, Motor_Address);
+	}
+	catch
+	{
+    	trace("Exception thrown: %s", GetExceptionMessage());
+	}
+}
