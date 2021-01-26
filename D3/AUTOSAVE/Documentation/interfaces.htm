@@ -1,0 +1,793 @@
+<html>
+	<head>
+		<title>User-Interface Report</title>
+		<style type="text/css">
+			<!--
+              body.default		{ font-family: Arial, Helvetica;
+              font-size: 10pt }
+
+              table.default		{ font-family: Arial, Helvetica;
+              border-collapse: collapse;
+              empty-cells: show;
+              table-layout: fixed;
+              font-size: 8.5pt}
+
+              table.module		{ font-family: Arial, Helvetica;
+              font-size: 8.5pt;
+              border-collapse: collapse;
+              empty-cells: show;
+              table-layout: fixed }
+
+              table.page		    { page-break-before: always }
+
+              table.encl_view		{ border: 1pt solid black;
+              background: #FFFFCC;
+              font-size: 6pt;
+              table-layout: fixed }
+
+              table.header        { font-family:Arial, Helvetica;
+              font-size: 10pt;
+              border-collapse:collapse;
+              width:100%;
+              empty-cells: show;
+              margin-bottom: 0.05in;
+              cell-padding:0.01in }
+
+              table.header_title        { font-family:Arial, Helvetica;
+              font-size: 10pt;
+              border-collapse:collapse;
+              width:100%;
+              empty-cells: show;
+              margin-bottom: 0.01in;
+              cell-padding:0.01in }
+
+              tr.titleblock		{ font-weight: normal; font-size: 10pt;
+              vertical-align: top }
+
+              tr.pageseparate		{ background: rgb(214,214,214);
+              vertical-align: center;
+              height: 0.3in }
+
+              tr.circuit		    { height: 0.25in }
+
+              tr.encl_row		    { spacing: 5px }
+
+              td.reporttitle		{ font-weight: bold; font-size: 12pt }
+
+              td.titlebottom		{ border-bottom: 0.05in solid rgb(170,170,170) }
+
+              td.titletop		    { border-top: 0.05in solid rgb(170,170,170) }
+
+              td.pagetitle		{ font-size: 10pt;
+              border-top: 0.01in solid black;
+              border-bottom: 0.01in solid black }
+
+              td.modulename		{ font-weight: bold; font-size: 9pt;
+              padding-bottom: 2px }
+
+              td.hot   			{ background: black;
+              font-weight: bold;
+              color: white;
+              border: 1pt solid black }
+
+              td.ckt_loc	    	{ padding-right: 7px;
+              padding-left: 7px }
+
+
+              td.ckt_red		    { background: rgb(214, 82, 87);
+              color: black;
+              border: 1pt solid black }
+
+              td.ckt_blue		    { background: rgb(106, 162, 219);
+              color: black;
+              border: 1pt solid black }
+
+              td.ckt_white		{ background: #FFFFFFF;
+              color: black;
+              border: 1pt solid black }
+
+              td.feedseparate     { background: rgb(212,208,172);
+              border: 1pt solid black }
+
+              td.ckt_type		    {  }
+
+              td.ckt_color		{  }
+
+              td.bar			    { background: black;
+              border: 1pt solid black }
+
+              td.encl	 		    { padding-top: 20pt;
+              padding-left: 10pt;
+              width: 60px }
+
+              td.encl_cur		    { background: rgb(214,214,214);
+              border: 2pt solid black;
+              font-weight: bold;
+              width: 15px;
+              height: 25px }
+
+              td.encl_cell		{ background: white;
+              border: 1pt solid black;
+              width: 15px;
+              height: 25px }
+
+              img.arr_tail		{ width: 7;
+              height: 1 }
+
+              img.arr_front		{ width: 7;
+              height: 1 }
+
+              img.arr_head		{ width: 5;
+              height: 5 }
+
+              div.encl_name		{ font-size: 8pt;
+              text-align: center }
+
+              table.mod_data		{ border-collapse: collapse;
+              empty-cells: show;
+              table-layout: fixed;
+              font-size: 9.5pt;
+              page-break-after: always }
+
+              td.mod_data_lt		{ text-align: left;
+              padding: 0pt;
+              border-right: 1.5pt solid black;
+              height: 80px }
+
+              td.mod_data_rt		{ text-align: right;
+              padding: 0pt;
+              border-left: 1.5pt solid black;
+              height: 80px }
+
+              td.fix_img_lt		{ background: rgb(250,250,250) }
+
+              td.fix_img_rt		{ background: rgb(250,250,250) }
+
+              td.mod_img		    { background: rgb(250,250,250) }
+
+              td.no_inst		    { background: rgb(250,250,250);
+              border: 1pt dashed gray;
+              font-weight: bold; font-size: 8.5pt;
+              height: 80px }
+
+              td.ref_fix_lt		{ background: rgb(250,250,250);
+              border-left: 1.5pt solid black;
+              border-top: 1.5pt solid black;
+              width: 80px }
+
+              td.ref_fix_rt		{ background: rgb(250,250,250);
+              border-right: 1.5pt solid black;
+              border-top: 1.5pt solid black;
+              width: 80px }
+
+              td.ref_dev		    { background: rgb(250,250,250);
+              border-top: 1.5pt solid black;
+              width: 80px }
+
+              td.ref_mod_data		{ width: 120px }
+
+              img.mod_img		    { width: 84px }
+
+              div.mod_name		{ background: black;
+              color: white;
+              border-bottom: 2pt solid black }
+
+              img.device		    { border: 0pt }
+
+              tr.header		    { font-weight: bold }
+
+              tr.r0			    { background-color: rgb(232,232,232) }
+
+              tr.r1			    { background-color: white }
+
+
+              td.header		    { border-top: 0.5pt solid black;
+              border-bottom: 2.0pt solid black;
+              border-left: 0.5pt solid black;
+              border-right: 0.5pt solid black;
+              background-color:rgb(200,200,200);
+              padding: 2pt
+              }
+
+              td.ld_cell          { border:0.5pt solid black;
+              vertical-align:top;
+              padding: 2pt }
+
+              thead               { display: table-header-group }
+
+              td.bom_req		    { background-color: rgb(232,232,232) }
+              td.bom_cell         { border: 0.5pt solid black;
+              vertical-align: top }
+            -->
+		</style>
+	</head>
+	<body class="default"><table class="header" width="100%"><tr><td colspan="25" rowspan="3"><img width="200" src="logogr.jpg"/></td></tr><tr/><tr/><tr class="titleblock"><td class="titletop" width="100%" colspan="25"><table class="header_title"><tr><td align="right" width="8%"><b>Report: </b></td><td width="92%">User-Interface Report</td></tr></table></td></tr><tr class="titleblock"><td width="8%" align="right"><b>Project: </b></td><td width="32%">Wiviott 2019.8.16</td><td width="13%" align="right"><b>Dealer: </b></td><td width="47%"></td></tr><tr class="titleblock"><td align="right"><b>Creator: </b></td><td>
+                    Crestron D3 Pro v3.03.020</td><td align="right"><b>Description: </b></td><td></td></tr><tr class="titleblock"><td class="titlebottom" align="right"><b>Date: </b></td><td class="titlebottom">4/10/2020</td><td class="titlebottom" align="right"><b>System Number:</b></td><td class="titlebottom"></td></tr></table><br/><br/>
+		<table class="page"/>
+		<br/>
+		<table class="page"/>
+		<br/><b>906 RACK (1 Equipment Area)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ FAMILY ROOM (LEFT WIN)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ FAMILY ROOM (RIGHT WIN)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ KITCHEN</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ LIVING ROOM ( LIGHTS)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ LIVING ROOM (ALL SHADES)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ LIVING ROOM (B OUT 1-6)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ LIVING ROOM (B OUT 7-8)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ LIVING ROOM (SHADE 1-6)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ LIVING ROOM (SHADE 7-8)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ LIVING ROOM (SLIDERS)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ MASTER BED (LIGHTS)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ MASTER BED (SLIDERS)</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ MASTER BED 3</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ OFFICE AND BATH</td>
+				<td class="ld_cell" align="left">Virtual CNX-B12</td>
+				<td class="ld_cell" align="left">*Virtual*</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>201 ENTRY HALL (COMMON AREAS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ FOYER ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 21</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ MAIN DOOR</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 22</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>202 MASTER HALL (COMMON AREAS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ HALL ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 3A</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>203 FAMILY HALL (COMMON AREAS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ POWDER DOOR</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 28</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>204 POWDER ROOM (COMMON AREAS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ POWDER ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 29</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>205 BUTLERS PANTRY (COMMON AREAS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ FAMILY HALL</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 2A</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>206 OFFICE (COMMON AREAS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ OFFICE ENTRY L</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 42</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ OFFICE ENTRY R</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 43</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>101 LAUNDRY ROOM (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ SERVICE DOOR</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 20</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>102 STUDY (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ COUCH LEFT</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 25</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ COUCH RIGHT</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 24</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ STUDY HALL ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 23</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ STUDY PATIO DOOR</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 27</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>103 STUDY BATH (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ BATH ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 26</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>104 FAMILY ROOM (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ PATIO DOOR</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 2B</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>105 DINING ROOM (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ BUTLERS PANTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 4A</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>105 LIVING ROOM (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ FIREPLACE</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 4B</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ NORTH PATIO</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 4D</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ SOUTH PATIO</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 4C</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>106 KITCHEN (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ KITHCEN ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 2C</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ PATIO LEFT</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 4E</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ PATIO RIGHT</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 4F</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>107 MASTER BED (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ HER NIGHT STAND</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 3F</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ HIS NIGHT STAND</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 3E</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ MASTER BED ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 3B</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ PATIO L</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 3C</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ PATIO R</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 3D</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>108 HIS BATH (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 40</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>108 HIS CLOSET (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ HIS CLOSET</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 41</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/><b>109 HER BATH (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ ENTRY</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 45</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+			<tr>
+				<td class="ld_cell" align="left">@ HER TOILET</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 46</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/><b>109 HER CLOSET (ROOMS)</b>
+		<table class="default" width="100%" style="border: 1pt solid black;	table-layout: fixed">
+			<col style="width: 1.80in"/>
+			<col style="width: 1.50in"/>
+			<col style="width: 1.70in"/>
+			<col style="width: 1.80in"/>
+			<thead>
+				<tr class="sectionheader" valign="bottom">
+					<td class="header" align="left"><b>Interface Name</b></td>
+					<td class="header" align="left"><b>Model</b></td>
+					<td class="header" align="left"><b>Address</b></td>
+					<td class="header" align="left"><b>Notes</b></td>
+				</tr>
+			</thead>
+			<tr>
+				<td class="ld_cell" align="left">@ DRAWER</td>
+				<td class="ld_cell" align="left">C2N-CBD-P</td>
+				<td class="ld_cell" align="left">Net-Device ID 44</td>
+				<td class="ld_cell" align="left"></td>
+			</tr>
+		</table>
+		<br/>
+		<table class="page"/>
+		<br/>
+		<table class="page"/>
+	</body>
+</html>
